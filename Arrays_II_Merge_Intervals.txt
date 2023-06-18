@@ -1,0 +1,41 @@
+class Solution {
+public:
+    
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(),intervals.end());
+        for(auto x : intervals)
+        {
+            cout<<"["<<x[0]<<","<<x[1]<<"]"<<"\n";
+        }
+        int n = intervals.size();
+        if(n==1) return intervals;
+        vector<vector<int>> ans;
+        int prevStart = intervals[0][0];
+        int prevEnd = intervals[0][1];
+        ans.push_back({prevStart,prevEnd});
+        
+        for(int i = 0 ; i < n ; i++)
+        {
+            int currStart = intervals[i][0];
+            int currEnd = intervals[i][1];
+            
+            prevStart = ans.back()[0];
+            prevEnd = ans.back()[1];
+            
+            if(currStart <= prevEnd)
+            {
+                ans.pop_back();
+                ans.push_back({prevStart > currStart ? currStart : prevStart , prevEnd > currEnd ?prevEnd : currEnd });
+                
+            }
+            else
+            {
+                
+                ans.push_back({currStart,currEnd});
+            }
+
+        }
+        
+        return ans;
+    }
+};
